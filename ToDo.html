@@ -5,8 +5,122 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        function appendRow(category, time, newWord){
+            console.log("hello");
+            let tbody = document.getElementById("ToDoBody");
+            let newRow = tbody.insertRow(tbody.rows.length);
+            let cell0 = newRow.insertCell(0);
+            let cell1 = newRow.insertCell(1);
+            let cell2 = newRow.insertCell(2);
+            let cell3 = newRow.insertCell(3);
+
+            cell0.innerHTML = category;
+            cell1.innerHTML = time;
+            cell2.innerHTML = newWord;
+        };
+        function inputKeydownHandler(){
+            if(event.keyCode == 13){
+                this.value = this.value.trim();
+                if(this.value.length <= 0)
+                    return;
+                appendRow(this.value);
+                this.value="";
+            }
+        };
+        function saveClickHandler(){
+            let newWord = document.getElementById("inputText").value.trim();
+            document.getElementById("inputText").value = "";
+            let category = document.getElementById("combobox").value
+            console.log("aaaa");
+            appendRow(category,1,newWord);
+            
+        }
+        //화면을 그리고 난뒤--------------------------------
+        $(document).ready(function(){
+            $("#inputText").keydown(inputKeydownHandler);
+            $("#save").click(saveClickHandler);
+        });
+    </script>
+    <style>
+        .header{
+            width: 700px;
+            margin: 0px auto;
+            text-align: center;
+        }
+        .inputDiv{
+            margin: 0px auto;
+            width: 700px;
+            text-align: center;
+        }
+        .output{
+            margin: 0px auto;
+            width: 700px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        #ToDo, #Done{
+            float: left;
+            margin: 10px;
+        }
+        #Done{
+            float: right;
+        }
+    </style>
+    <style>
+        td, th{
+            border: 1px solid gray;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="header">
+        <h1>ToDo Project</h1>
+    </div>
+    <hr>
+    <div class="inputDiv">
+        완료 시간:  
+        <input type="datetime-local" name="time" id="time">
+        <div>
+
+            <select name="combobox" id="combobox">
+                <option value="과제">과제</option>
+                <option value="집안일">집안일</option>
+                <option value="기타">기타</option>
+            </select>
+            입력: <input type="text" id="inputText">
+            <button id="save">등록</button>
+        </div>
+    </div>
+    <div class="output">
+        <div id="ToDo">
+            <table>
+                <thead>
+                    <th>분류</th>
+                    <th>완료 시간</th>
+                    <th>해야 할 일</th>
+                    <th>남은 시간</th>
+                </thead>
+                <tbody id="ToDoBody">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="Done">
+            <table>
+                <thead>
+                    <th>분류</th>
+                    <th>완료 시간</th>
+                    <th>해야 할 일</th>
+                    <th>끝난 시간</th>
+                </thead>
+                <tbody id="DoneBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
