@@ -8,7 +8,6 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script>
         function appendRow(category, time, newWord){
-            console.log("hello");
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
             let cell0 = newRow.insertCell(0);
@@ -31,14 +30,34 @@
         };
         function saveClickHandler(){
             let newWord = document.getElementById("inputText").value.trim();
-            document.getElementById("inputText").value = "";
             let category = document.getElementById("combobox").value
-            console.log("aaaa");
-            appendRow(category,1,newWord);
+            let time = document.getElementById("time").value
+            document.getElementById("inputText").value = "";
+            appendRow(category,time,newWord);
+            console.log(document.getElementById("time").value);
             
+        }
+        function toDaySetting(){
+            let time = new Date().toLocaleString();
+            if(time.includes("오후")){
+                
+            }
+            time = time.replace(/. /g, '-');
+            let year = time.slice(0,9)
+            let hour = time.slice(12,20)
+            if(time.slice(8,9) != "-"){
+                year="";
+                year = year.concat(time.slice(0,8),"0",time.slice(8,9));
+            }
+            time = year.concat("T",hour);
+            
+            console.log("변화"+time);
+            document.getElementById("time").value=time;
+            console.log("2021-12-9T11:48:46");
         }
         //화면을 그리고 난뒤--------------------------------
         $(document).ready(function(){
+            toDaySetting();
             $("#inputText").keydown(inputKeydownHandler);
             $("#save").click(saveClickHandler);
         });
