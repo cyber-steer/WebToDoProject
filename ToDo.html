@@ -8,25 +8,24 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script>
         function appendRow(category, time, newWord){
+            let span = document.createElement("span");
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
+            let input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
             let cell0 = newRow.insertCell(0);
             let cell1 = newRow.insertCell(1);
             let cell2 = newRow.insertCell(2);
             let cell3 = newRow.insertCell(3);
+            let cell4 = newRow.insertCell(4);
+            
+            cell0.appendChild(input);
+            cell1.innerHTML = category;
+            cell2.innerHTML = time;
+            cell3.innerHTML = newWord;
 
-            cell0.innerHTML = category;
-            cell1.innerHTML = time;
-            cell2.innerHTML = newWord;
-        };
-        function inputKeydownHandler(){
-            if(event.keyCode == 13){
-                this.value = this.value.trim();
-                if(this.value.length <= 0)
-                    return;
-                appendRow(this.value);
-                this.value="";
-            }
+            $(cell0).addClass("empty");
+
         };
         function saveClickHandler(){
             let newWord = document.getElementById("inputText").value.trim();
@@ -38,27 +37,21 @@
             
         }
         function toDaySetting(){
-            let time = new Date().toLocaleString();
-            if(time.includes("오후")){
-                
+            let time = new Date().toLocaleDateString();
+            let year = time.replace(/. /g, '-');
+            time = "";
+            if(year.lastIndexOf('.') == 9){
+                    time = time.concat(year.slice(0,8),"0",year.slice(8,9));
+            }else{
+                time = time.concat(year.slice(0,10));
             }
-            time = time.replace(/. /g, '-');
-            let year = time.slice(0,9)
-            let hour = time.slice(12,20)
-            if(time.slice(8,9) != "-"){
-                year="";
-                year = year.concat(time.slice(0,8),"0",time.slice(8,9));
-            }
-            time = year.concat("T",hour);
-            
+            time = time.concat("T23:59:59")
             console.log("변화"+time);
             document.getElementById("time").value=time;
-            console.log("2021-12-9T11:48:46");
         }
         //화면을 그리고 난뒤--------------------------------
         $(document).ready(function(){
             toDaySetting();
-            $("#inputText").keydown(inputKeydownHandler);
             $("#save").click(saveClickHandler);
         });
     </script>
@@ -87,6 +80,11 @@
         #Done{
             float: right;
         }
+        .empty{
+            border: 0px;
+            width: 30px;
+        }
+
     </style>
     <style>
         td, th{
@@ -117,6 +115,7 @@
         <div id="ToDo">
             <table>
                 <thead>
+                    <th class="empty"></th>
                     <th>분류</th>
                     <th>완료 시간</th>
                     <th>해야 할 일</th>
