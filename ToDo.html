@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./time.js"></script>
     <script>
         function appendRow(category, time, newWord){
-            let span = document.createElement("span");
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
             let input = document.createElement("input");
@@ -23,18 +23,21 @@
             cell1.innerHTML = category;
             cell2.innerHTML = time;
             cell3.innerHTML = newWord;
-
+            cell4.innerHTML = leftTime(time);
             $(cell0).addClass("empty");
             $(input).click(checkboxClickHandler);
+            setInterval(function(){
+                cell4.innerHTML = leftTime(time);
+            },1000)
 
         };
         function saveClickHandler(){
             let newWord = document.getElementById("inputText").value.trim();
             let category = document.getElementById("combobox").value
             let time = document.getElementById("time").value
+            time = time.slice(0,4)+"년"+time.slice(5,7)+"월"+time.slice(8,10)+"일, "+time.slice(11,13)+"시"+time.slice(14,16)+"분";
             document.getElementById("inputText").value = "";
             appendRow(category,time,newWord);
-            console.log(document.getElementById("time").value);
             
         }
         function checkboxClickHandler(){
@@ -53,8 +56,7 @@
             }else{
                 time = time.concat(year.slice(0,10));
             }
-            time = time.concat("T23:59:59")
-            console.log("변화"+time);
+            time = time.concat("T23:59")
             document.getElementById("time").value=time;
         }
         //화면을 그리고 난뒤--------------------------------
@@ -107,7 +109,7 @@
     <hr>
     <div class="inputDiv">
         완료 시간:  
-        <input type="datetime-local" name="time" id="time">
+        <input type="datetime-local" id="time">
         <div>
 
             <select name="combobox" id="combobox">
