@@ -8,29 +8,51 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./time.js"></script>
     <script>
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //행 추가
         function appendRow(category, time, newWord){
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
             let input = document.createElement("input");
+            let button = document.createElement("button");
+            button.innerHTML = "X";
             input.setAttribute("type", "checkbox");
+            $(button).addClass("delete");
+            $(button).click(deletClickHandler);
             let cell0 = newRow.insertCell(0);
             let cell1 = newRow.insertCell(1);
             let cell2 = newRow.insertCell(2);
             let cell3 = newRow.insertCell(3);
             let cell4 = newRow.insertCell(4);
+            let cell5 = newRow.insertCell(5);
             
             cell0.appendChild(input);
             cell1.innerHTML = category;
             cell2.innerHTML = time;
             cell3.innerHTML = newWord;
             cell4.innerHTML = leftTime(time);
+            cell5.appendChild(button);
             $(cell0).addClass("empty");
+            $(cell5).addClass("empty");
             $(input).click(checkboxClickHandler);
             setInterval(function(){
                 cell4.innerHTML = leftTime(time);
             },1000)
 
-        };
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //행삭제 핸들러
+        function deletClickHandler(){
+            let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
+            let rowIndex = this.parentNode.parentNode.rowIndex;
+            console.log(parentId);
+            if(parentId == "ToDoBody")
+                document.getElementById("ToDoBody").deleteRow(rowIndex-1);
+            else
+                document.getElementById("DoneBody").deleteRow(rowIndex-1);
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //등록 버튼 클릭 핸들러
         function saveClickHandler(){
             let newWord = document.getElementById("inputText").value.trim();
             let category = document.getElementById("combobox").value
@@ -40,13 +62,17 @@
             appendRow(category,time,newWord);
             
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //체크박스 클릭 핸들러
         function checkboxClickHandler(){
             let parentID = this.parentNode.parentNode.parentNode.getAttribute('id');
             if(parentID == "ToDoBody")
                 document.getElementById("DoneBody").appendChild(this.parentNode.parentNode);
             else    
                 document.getElementById("ToDoBody").appendChild(this.parentNode.parentNode);
-            }
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //input 날짜 초기값
         function toDaySetting(){
             let time = new Date().toLocaleDateString();
             let year = time.replace(/. /g, '-');
@@ -94,6 +120,10 @@
             border: 0px;
             width: 30px;
         }
+        .delete{
+            width: 30px;
+            margin-left: 10px;
+        }
 
     </style>
     <style>
@@ -131,6 +161,7 @@
                     <th>완료 시간</th>
                     <th>해야 할 일</th>
                     <th>남은 시간</th>
+                    <th class="empty"></th>
                 </thead>
                 <tbody id="ToDoBody">
 
@@ -145,6 +176,7 @@
                     <th>완료 시간</th>
                     <th>해야 할 일</th>
                     <th>끝난 시간</th>
+                    <th class="empty"></th>
                 </thead>
                 <tbody id="DoneBody">
 
