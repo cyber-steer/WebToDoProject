@@ -10,11 +10,12 @@
     <script>
         //-----------------------------------------------------------------------------------------------------------------------------------
         //행 추가
-        function appendRow(category, time, newWord){
+        function appendRow(time, newWord, color){
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
             let input = document.createElement("input");
             let button = document.createElement("button");
+            newRow.style.backgroundColor = color;
             button.innerHTML = "X";
             input.setAttribute("type", "checkbox");
             $(button).addClass("delete");
@@ -24,19 +25,23 @@
             let cell2 = newRow.insertCell(2);
             let cell3 = newRow.insertCell(3);
             let cell4 = newRow.insertCell(4);
-            let cell5 = newRow.insertCell(5);
+            
             
             cell0.appendChild(input);
-            cell1.innerHTML = category;
-            cell2.innerHTML = time;
-            cell3.innerHTML = newWord;
-            cell4.innerHTML = leftTime(time);
-            cell5.appendChild(button);
-            $(cell0).addClass("empty");
-            $(cell5).addClass("empty");
+            cell0.style.backgroundColor = "#60B6E7";
+            cell1.innerHTML = time;
+            cell2.innerHTML = newWord;
+            cell3.innerHTML = leftTime(time);
+            cell4.appendChild(button);
+            cell4.style.backgroundColor = "#60B6E7";    
+            $(cell0).addClass("empty textCenter");
+            $(cell1).addClass("textCenter");
+            $(cell2).addClass("textCenter");
+            $(cell3).addClass("textCenter");
+            $(cell4).addClass("empty textCenter");
             $(input).click(checkboxClickHandler);
             setInterval(function(){
-                cell4.innerHTML = leftTime(time);
+                cell3.innerHTML = leftTime(time);
             },1000)
 
         }
@@ -45,7 +50,6 @@
         function deletClickHandler(){
             let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
             let rowIndex = this.parentNode.parentNode.rowIndex;
-            console.log(parentId);
             if(parentId == "ToDoBody")
                 document.getElementById("ToDoBody").deleteRow(rowIndex-1);
             else
@@ -54,12 +58,12 @@
         //-----------------------------------------------------------------------------------------------------------------------------------
         //등록 버튼 클릭 핸들러
         function saveClickHandler(){
+            let color = document.getElementById("color").value;
             let newWord = document.getElementById("inputText").value.trim();
-            let category = document.getElementById("combobox").value
             let time = document.getElementById("time").value
-            time = time.slice(0,4)+"년"+time.slice(5,7)+"월"+time.slice(8,10)+"일, "+time.slice(11,13)+"시"+time.slice(14,16)+"분";
+            time = time.slice(2,4)+"/"+time.slice(5,7)+"/"+time.slice(8,10)+", "+time.slice(11,13)+":"+time.slice(14,16);
             document.getElementById("inputText").value = "";
-            appendRow(category,time,newWord);
+            appendRow(time, newWord, color);
             
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -89,6 +93,7 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
+            console.log($("#ToDo").width());
         });
     </script>
     <style>
@@ -104,25 +109,45 @@
         }
         .output{
             margin: 0px auto;
-            width: 900px;
+            width: 1050px;
         }
         table{
+            margin: 20px auto;
             border-collapse: collapse;
         }
         #ToDo, #Done{
             float: left;
             margin: 10px;
         }
+        #ToDo{
+            border-radius: 1rem;
+            width: 505px;
+            background-color: #60B6E7;
+        }
         #Done{
             float: right;
         }
         .empty{
             border: 0px;
-            width: 30px;
         }
         .delete{
             width: 30px;
             margin-left: 10px;
+        }
+        #endTime{
+            width: 110px;
+            text-align: center;
+        }
+        #work{
+            width: 230px;
+            text-align: center;
+        }
+        #leftTime{
+            width: 70px;
+            text-align: center;
+        }
+        .textCenter{
+            text-align: center;
         }
 
     </style>
@@ -141,13 +166,8 @@
         완료 시간:  
         <input type="datetime-local" id="time">
         <div>
-
-            <select name="combobox" id="combobox">
-                <option value="분류">-분류-</option>
-                <option value="과제">과제</option>
-                <option value="집안일">집안일</option>
-                <option value="기타">기타</option>
-            </select>
+            지정 색:
+            <input type="color" id="color">
             입력: <input type="text" id="inputText">
             <button id="save">등록</button>
         </div>
@@ -157,11 +177,10 @@
             <table>
                 <thead>
                     <th class="empty"></th>
-                    <th>분류</th>
-                    <th>완료 시간</th>
-                    <th>해야 할 일</th>
-                    <th>남은 시간</th>
-                    <th class="empty"></th>
+                    <th id="endTime">완료 시간</th>
+                    <th id="work">해야 할 일</th>
+                    <th id="leftTime">남은 시간</th>
+                    <th class="empty" id="empty"></th>
                 </thead>
                 <tbody id="ToDoBody">
 
@@ -172,11 +191,10 @@
             <table>
                 <thead>
                     <th class="empty"></th>
-                    <th>분류</th>
-                    <th>완료 시간</th>
-                    <th>해야 할 일</th>
-                    <th>끝난 시간</th>
-                    <th class="empty"></th>
+                    <th id="endTime">완료 시간</th>
+                    <th id="work">해야 할 일</th>
+                    <th id="leftTime">끝난 시간</th>
+                    <th class="empty" id="empty"></th>
                 </thead>
                 <tbody id="DoneBody">
 
