@@ -11,6 +11,7 @@
         //-----------------------------------------------------------------------------------------------------------------------------------
         //행 추가
         function appendRow(time, newWord, color){
+            let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(tbody.rows.length);
             let input = document.createElement("input");
@@ -28,12 +29,12 @@
             
             
             cell0.appendChild(input);
-            cell0.style.backgroundColor = "#60B6E7";
+                cell0.style.backgroundColor = backColor;
             cell1.innerHTML = time;
             cell2.innerHTML = newWord;
             cell3.innerHTML = leftTime(time);
             cell4.appendChild(button);
-            cell4.style.backgroundColor = "#60B6E7";    
+            cell4.style.backgroundColor = backColor;
             $(cell0).addClass("empty textCenter");
             $(cell1).addClass("textCenter");
             $(cell2).addClass("textCenter");
@@ -70,10 +71,20 @@
         //체크박스 클릭 핸들러
         function checkboxClickHandler(){
             let parentID = this.parentNode.parentNode.parentNode.getAttribute('id');
-            if(parentID == "ToDoBody")
-                document.getElementById("DoneBody").appendChild(this.parentNode.parentNode);
-            else    
-                document.getElementById("ToDoBody").appendChild(this.parentNode.parentNode);
+            let parent;
+            if(parentID == "ToDoBody"){
+                parent = document.getElementById("DoneBody");
+                parent.appendChild(this.parentNode.parentNode);
+            }
+            else{
+                parent = document.getElementById("ToDoBody");
+                parent.appendChild(this.parentNode.parentNode);
+            }
+            let parentTd =  this.parentNode;
+            let backColor = getComputedStyle(parent.parentNode.parentNode).backgroundColor;
+            parentTd.style.backgroundColor = backColor;
+            let button = parentTd.parentNode.lastChild;
+            button.style.backgroundColor = backColor;
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
         //input 날짜 초기값
@@ -93,7 +104,6 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
-            console.log($("#ToDo").width());
         });
     </script>
     <style>
@@ -111,20 +121,21 @@
             margin: 0px auto;
             width: 1050px;
         }
-        table{
+        table{ 
             margin: 20px auto;
             border-collapse: collapse;
         }
         #ToDo, #Done{
-            float: left;
             margin: 10px;
-        }
-        #ToDo{
             border-radius: 1rem;
             width: 505px;
-            background-color: #60B6E7;
+        }
+        #ToDo{
+            float: left;
+            background-color: #5FBCFB;
         }
         #Done{
+            background-color: #8BF5B7;
             float: right;
         }
         .empty{
@@ -149,12 +160,10 @@
         .textCenter{
             text-align: center;
         }
-
-    </style>
-    <style>
         td, th{
             border: 1px solid gray;
         }
+
     </style>
 </head>
 <body>
@@ -166,7 +175,7 @@
         완료 시간:  
         <input type="datetime-local" id="time">
         <div>
-            지정 색:
+            배경 색:
             <input type="color" id="color">
             입력: <input type="text" id="inputText">
             <button id="save">등록</button>
