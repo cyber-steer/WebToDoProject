@@ -105,9 +105,12 @@
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
         function getTokenStringFromBox(boxName){
+            let div = document.getElementById(boxName).parentNode.parentNode 
+            let backColor = getComputedStyle(div).backgroundColor;
             let box = {
                 endTime: [],
                 content: [],
+                color: backColor,
                 boxName: boxName
             }
             let trArray = document.getElementById(boxName).children;
@@ -127,10 +130,73 @@
             return JSON.stringify(box);
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
+        function pushTokenToBox(boxName, time, newWord, backColor){
+            console.log(boxName);
+            console.log(time);
+            console.log(newWord);
+            console.log(backColor);
+            let tbody = document.getElementById(boxName);
+            let newRow = tbody.insertRow(index(time, tbody));
+            let input = document.createElement("input");    
+            let button = document.createElement("button");
+            newRow.style.backgroundColor = color;
+            button.innerHTML = "X";
+            input.setAttribute("type", "checkbox");
+            $(button).addClass("delete");
+            $(button).click(deletClickHandler);
+            $(input).click(checkboxClickHandler);
+            for(let i=0; i<5;i++){
+                let cell = newRow.insertCell(i)
+                switch(i){
+                    case 0:
+                        cell.appendChild(input)
+                        cell.style.backgroundColor = backColor;
+                        break;
+                    case 1:
+                        cell.innerHTML = time;
+                        break;
+                    case 2:
+                        cell.innerHTML = newWord;
+                        break;
+                    case 3:
+                        cell.innerHTML = leftTime(time);
+                        setInterval(function(){
+                            cell.innerHTML = leftTime(time);
+                        },1000)
+                        break;
+                    case 4:
+                        cell.appendChild(button);
+                        cell.style.backgroundColor = backColor;
+                        break;
+                }
+                switch(i){
+                    case 0:
+                    case 4:
+                        $(cell).addClass("empty");
+                    case 1:
+                    case 2:
+                    case 3:
+                        $(cell).addClass("textCenter");
+                }
+            }
+            storageSave();
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //로컬스토리지 저장
         function storageSave(){
-            // localStorage.setItem("ToDoBody",getTokenStringFromBox("ToDoBody"));
+            localStorage.setItem("ToDoBody",getTokenStringFromBox("ToDoBody"));
             localStorage.setItem("DoneBody",getTokenStringFromBox("DoneBody"));
             console.log("save");
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //로컬스토리지 불러오기
+        function restoreTokenList(){
+            if(localStorage.getItem("ToDoBody") != null){
+                let list = JSON.parse(localStorage.getItem("ToDoBody"));
+                for(let i in list.content){
+                    pushTokenToBox(list.boxName, list.endTime[i],list.content, list.color);
+                }
+            }
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
         //input 날짜 초기값
@@ -150,6 +216,7 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
+            restoreTokenList();
         });
     </script>
     <style>
