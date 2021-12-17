@@ -57,6 +57,7 @@
                         $(cell).addClass("textCenter");
                 }
             }
+            storageSave();
 
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -101,6 +102,35 @@
             parentTd.style.backgroundColor = backColor;
             let button = parentTd.parentNode.lastChild;
             button.style.backgroundColor = backColor;   
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        function getTokenStringFromBox(boxName){
+            let box = {
+                endTime: [],
+                content: [],
+                boxName: boxName
+            }
+            let trArray = document.getElementById(boxName).children;
+            let array = [];
+            for(let tr of trArray){
+                for(let i=0;i<2;i++){
+                    switch(i){
+                        case 0:
+                            box.endTime.push(tr.children[1].innerHTML);
+                            break;
+                        case 1:
+                            box.content.push(tr.children[2].innerHTML);
+                            break;
+                    }
+                }
+            }
+            return JSON.stringify(box);
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        function storageSave(){
+            // localStorage.setItem("ToDoBody",getTokenStringFromBox("ToDoBody"));
+            localStorage.setItem("DoneBody",getTokenStringFromBox("DoneBody"));
+            console.log("save");
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
         //input 날짜 초기값

@@ -25,6 +25,5 @@ function index(newTime, table){
         else
             rowIndex = i+1;
     }
-    console.log(rowIndex);
     return rowIndex;
 }
