@@ -21,29 +21,41 @@
             input.setAttribute("type", "checkbox");
             $(button).addClass("delete");
             $(button).click(deletClickHandler);
-            let cell0 = newRow.insertCell(0);
-            let cell1 = newRow.insertCell(1);
-            let cell2 = newRow.insertCell(2);
-            let cell3 = newRow.insertCell(3);
-            let cell4 = newRow.insertCell(4);
-            
-            
-            cell0.appendChild(input);
-                cell0.style.backgroundColor = backColor;
-            cell1.innerHTML = time;
-            cell2.innerHTML = newWord;
-            cell3.innerHTML = leftTime(time);
-            cell4.appendChild(button);
-            cell4.style.backgroundColor = backColor;
-            $(cell0).addClass("empty textCenter");
-            $(cell1).addClass("textCenter");
-            $(cell2).addClass("textCenter");
-            $(cell3).addClass("textCenter");
-            $(cell4).addClass("empty textCenter");
             $(input).click(checkboxClickHandler);
-            setInterval(function(){
-                cell3.innerHTML = leftTime(time);
-            },1000)
+            for(let i=0; i<5;i++){
+                let cell = newRow.insertCell(i)
+                switch(i){
+                    case 0:
+                        cell.appendChild(input)
+                        cell.style.backgroundColor = backColor;
+                        break;
+                    case 1:
+                        cell.innerHTML = time;
+                        break;
+                    case 2:
+                        cell.innerHTML = newWord;
+                        break;
+                    case 3:
+                        cell.innerHTML = leftTime(time);
+                        setInterval(function(){
+                            cell.innerHTML = leftTime(time);
+                        },1000)
+                        break;
+                    case 4:
+                        cell.appendChild(button);
+                        cell.style.backgroundColor = backColor;
+                        break;
+                }
+                switch(i){
+                    case 0:
+                    case 4:
+                        $(cell).addClass("empty");
+                    case 1:
+                    case 2:
+                    case 3:
+                        $(cell).addClass("textCenter");
+                }
+            }
 
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -84,7 +96,7 @@
             let backColor = getComputedStyle(parent.parentNode.parentNode).backgroundColor;
             parentTd.style.backgroundColor = backColor;
             let button = parentTd.parentNode.lastChild;
-            button.style.backgroundColor = backColor;
+            button.style.backgroundColor = backColor;   
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
         //input 날짜 초기값
@@ -143,7 +155,7 @@
         }
         .delete{
             width: 30px;
-            margin-left: 10px;
+            margin-left: 3px;
         }
         #endTime{
             width: 110px;
