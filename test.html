@@ -5,18 +5,22 @@
     <title>input 태그의 type속성 값 date</title>
     <script src="./jquery-3.6.0.min.js"></script>
     <script>
-        function click(){
-            let time = document.getElementById("time").value
-            console.log(time);
-
-        }
         $(document).ready(function(){
-            $("button").click(click);
+            console.log(document.querySelector("div").children);
+            console.log(document.querySelectorAll("div"));
+            console.log($("div"));
+
         })
+
+        
     </script>
     </head>
     <body>
-        <input type="datetime-local" id="time">
-        <button id="button">test</button>
+        <h1>JS</h1>
+        <div>
+            <p>hello</p>
+            <p>world</p>
+        </div>
+        <h2>자바스크립트</h2>
     </body>
     </html>

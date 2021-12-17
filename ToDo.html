@@ -11,10 +11,40 @@
         //-----------------------------------------------------------------------------------------------------------------------------------
         //행 추가
         function appendRow(time, newWord, color){
-            let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+            let row = document.getElementById("ToDoBody").children;
+            let trData = [];
+            let rowIndex = 0;
+            let year =time.slice(0,2);
+            let month =time.slice(3,5);
+            let day =time.slice(6,8);
+            let hour =time.slice(10,12);
+            let minute =time.slice(13,15);
+            let newTime = new Date("20"+year,month-1,day,hour,minute);
+            for(let tr of row){
+                trData.push(tr.children[1].innerHTML);
+            }
+            for(let i=0; i<row.length; i++){
+                year = trData[i].slice(0,2);
+                month = trData[i].slice(3,5);
+                day = trData[i].slice(6,8);
+                hour = trData[i].slice(10,12);
+                minute = trData[i].slice(13,15);
+                let endTime = new Date("20"+year,month-1,day,hour,minute);
+                if(endTime - newTime > 0){
+                    rowIndex = i;
+                    break;
+                }
+                else
+                    rowIndex = i+1;
+            }
+            // rowIndex = 0;
+            console.log(rowIndex);
+
+
             let tbody = document.getElementById("ToDoBody");
-            let newRow = tbody.insertRow(tbody.rows.length);
-            let input = document.createElement("input");
+            let newRow = tbody.insertRow(rowIndex);
+            let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+            let input = document.createElement("input");    
             let button = document.createElement("button");
             newRow.style.backgroundColor = color;
             button.innerHTML = "X";
@@ -151,10 +181,11 @@
             float: right;
         }
         .empty{
+            width: 23px;
             border: 0px;
         }
         .delete{
-            width: 30px;
+            width: 20px;
             margin-left: 3px;
         }
         #endTime{

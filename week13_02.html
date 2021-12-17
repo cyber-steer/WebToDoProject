@@ -49,8 +49,9 @@
                 return;
 
             //새행을 추가할 위치(index)를 계산한다.
+            console.log(this.parentNode.rowIndex);
             let rowIndex = this.parentNode.rowIndex -1;
-
+            console.log(rowIndex);
             let tbody = gid("myTBody");
             //tbody의 메소드(insertRow)를 이용하여 새 행을 생성한다.
             let newRow = tbody.insertRow(rowIndex); // <tr>~</tr>
