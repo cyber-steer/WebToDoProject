@@ -7,7 +7,7 @@
     <title>Document</title>
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./time.js"></script>
-    <script src="./sort.js"></script>
+    <script src="./table.js"></script>
     <script>
         //-----------------------------------------------------------------------------------------------------------------------------------
         //행 추가
@@ -29,35 +29,31 @@
                     case 0:
                         cell.appendChild(input)
                         cell.style.backgroundColor = backColor;
+                        $(cell).addClass("empty ")
                         break;
                     case 1:
                         cell.innerHTML = time;
+                        $(cell).addClass("endTime textCenter")
                         break;
                     case 2:
                         cell.innerHTML = newWord;
+                        $(cell).addClass("work textCenter")
                         break;
                     case 3:
                         cell.innerHTML = leftTime(time);
                         setInterval(function(){
                             cell.innerHTML = leftTime(time);
                         },1000)
+                        $(cell).addClass("leftTime textCenter")
                         break;
                     case 4:
                         cell.appendChild(button);
                         cell.style.backgroundColor = backColor;
+                        $(cell).addClass("empty textCenter")
                         break;
                 }
-                switch(i){
-                    case 0:
-                    case 4:
-                        $(cell).addClass("empty");
-                    case 1:
-                    case 2:
-                    case 3:
-                        $(cell).addClass("textCenter");
-                }
             }
-            storageSave();
+            // storageSave();
 
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -151,15 +147,19 @@
                     case 0:
                         cell.appendChild(input)
                         cell.style.backgroundColor = backColor;
+                        $(cell).addClass("empty textCenter");
                         break;
                     case 1:
                         cell.innerHTML = time;
+                        $(cell).addClass("endTime");
                         break;
                     case 2:
                         cell.innerHTML = newWord;
+                        $(cell).addClass("work textCenter");
                         break;
                     case 3:
                         cell.innerHTML = leftTime(time);
+                        $(cell).addClass("leftTime textCenter");
                         setInterval(function(){
                             cell.innerHTML = leftTime(time);
                         },1000)
@@ -167,16 +167,8 @@
                     case 4:
                         cell.appendChild(button);
                         cell.style.backgroundColor = backColor;
+                        $(cell).addClass("empty textCenter");
                         break;
-                }
-                switch(i){
-                    case 0:
-                    case 4:
-                        $(cell).addClass("empty");
-                    case 1:
-                    case 2:
-                    case 3:
-                        $(cell).addClass("textCenter");
                 }
             }
             storageSave();
@@ -225,6 +217,18 @@
             margin: 0px auto;
             text-align: center;
         }
+        #sideBar{
+            float: left;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            padding: 0px 10px;
+            background-color: blue;
+        }
+        #dir{
+            background-color: blue;
+        }
         .inputDiv{
             margin: 0px auto;
             width: 700px;
@@ -235,8 +239,12 @@
             width: 1050px;
         }
         table{ 
-            margin: 20px auto;
             border-collapse: collapse;
+        }
+        .tableDiv{
+            width: 460px;
+            margin: 20px auto;
+            background-color: white;
         }
         #ToDo, #Done{
             margin: 10px;
@@ -252,30 +260,40 @@
             float: right;
         }
         .empty{
+            border: 1px solid #5FBCFB;
             width: 23px;
-            border: 0px;
+            background-color: #5FBCFB;
+        }
+        #Done .empty{
+            background-color: #8BF5B7;
+            border: 1px solid #8BF5B7;
+
         }
         .delete{
+            border: 1px solid #5FBCFB;
             width: 20px;
             margin-left: 3px;
         }
-        #endTime{
+        .endTime{
+            border: 1px solid gray;
+            border-collapse: collapse;
             width: 110px;
             text-align: center;
         }
-        #work{
+        .work{
+            border: 1px solid gray;
+            border-collapse: collapse;
             width: 230px;
             text-align: center;
         }
-        #leftTime{
+        .leftTime{
+            border: 1px solid gray;
+            border-collapse: collapse;
             width: 70px;
             text-align: center;
         }
         .textCenter{
             text-align: center;
-        }
-        td, th{
-            border: 1px solid gray;
         }
 
     </style>
@@ -295,34 +313,48 @@
             <button id="save">등록</button>
         </div>
     </div>
+    <div id="sideBar">
+        <div id="dir">
+        <ul>
+                <li><h1>ToDo</h1></li>
+            </ul>
+        </div>
+            <li>설정</li>
+
+
+    </div>
     <div class="output">
         <div id="ToDo">
+            <div class="tableDiv">
             <table>
                 <thead>
                     <th class="empty"></th>
-                    <th id="endTime">완료 시간</th>
-                    <th id="work">해야 할 일</th>
-                    <th id="leftTime">남은 시간</th>
-                    <th class="empty" id="empty"></th>
+                    <th class="endTime">완료 시간</th>
+                    <th class="work">해야 할 일</th>
+                    <th class="leftTime">남은 시간</th>
+                    <th class="empty"></th>
                 </thead>
-                <tbody id="ToDoBody">
-
-                </tbody>
-            </table>
+                    <tbody id="ToDoBody">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="Done">
+            <div class="tableDiv">
             <table>
-                <thead>
-                    <th class="empty"></th>
-                    <th id="endTime">완료 시간</th>
-                    <th id="work">해야 할 일</th>
-                    <th id="leftTime">끝난 시간</th>
-                    <th class="empty" id="empty"></th>
-                </thead>
-                <tbody id="DoneBody">
-
+                    <thead>
+                        <th class="empty"></th>
+                        <th class="endTime">완료 시간</th>
+                        <th class="work">해야 할 일</th>
+                        <th class="leftTime">끝난 시간</th>
+                        <th class="empty"></th>
+                    </thead>
+                    
                 </tbody>
-            </table>
+            </div>
+        </table>
+        <tbody id="DoneBody">
         </div>
     </div>
 </body>
