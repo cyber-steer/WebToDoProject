@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDo</title>
+	<link rel="stylesheet" type="text/css" href="./table.css"> 
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./time.js"></script>
     <script src="./table.js"></script>
+    <source>
     <script>
         //-----------------------------------------------------------------------------------------------------------------------------------
         //행 추가
@@ -15,6 +17,7 @@
             let tbody = document.getElementById("ToDoBody");
             let newRow = tbody.insertRow(index(time, tbody));
             let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+            console.log(backColor)
             let input = document.createElement("input");    
             let button = document.createElement("button");
             newRow.style.backgroundColor = color;
@@ -82,19 +85,21 @@
         function checkboxClickHandler(){
             let parentID = this.parentNode.parentNode.parentNode;
             let trArray;
+            let backColor;
             let tr = this.parentNode.parentNode;
             let time = tr.children[1].innerHTML;
             if(parentID.getAttribute('id') == "ToDoBody"){
                 parentID = document.getElementById("DoneBody");
                 trArray = parentID.children;
+                backColor = getComputedStyle(document.getElementById("Done")).backgroundColor;
             }
             else{
                 parentID = document.getElementById("ToDoBody");
                 trArray = parentID.children;
+                backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
             }
             parentID.insertBefore(tr, trArray[index(time, parentID)]);
             let parentTd =  this.parentNode;
-            let backColor = getComputedStyle(parentID.parentNode.parentNode).backgroundColor;
             parentTd.style.backgroundColor = backColor;
             let button = parentTd.parentNode.lastChild;
             button.style.backgroundColor = backColor;   
@@ -209,6 +214,7 @@
             toDaySetting();
             $("#save").click(saveClickHandler);
             restoreTokenList();
+            createTable(document.getElementById("output"));
         });
     </script>
     <style>
@@ -229,71 +235,14 @@
         #dir{
             background-color: blue;
         }
-        .inputDiv{
+        #inputDiv{
             margin: 0px auto;
             width: 700px;
             text-align: center;
         }
-        .output{
+        #output{
             margin: 0px auto;
             width: 1050px;
-        }
-        table{ 
-            border-collapse: collapse;
-        }
-        .tableDiv{
-            width: 460px;
-            margin: 20px auto;
-            background-color: white;
-        }
-        #ToDo, #Done{
-            margin: 10px;
-            border-radius: 1rem;
-            width: 505px;
-        }
-        #ToDo{
-            float: left;
-            background-color: #5FBCFB;
-        }
-        #Done{
-            background-color: #8BF5B7;
-            float: right;
-        }
-        .empty{
-            border: 1px solid #5FBCFB;
-            width: 23px;
-            background-color: #5FBCFB;
-        }
-        #Done .empty{
-            background-color: #8BF5B7;
-            border: 1px solid #8BF5B7;
-
-        }
-        .delete{
-            border: 1px solid #5FBCFB;
-            width: 20px;
-            margin-left: 3px;
-        }
-        .endTime{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 110px;
-            text-align: center;
-        }
-        .work{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 230px;
-            text-align: center;
-        }
-        .leftTime{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 70px;
-            text-align: center;
-        }
-        .textCenter{
-            text-align: center;
         }
 
     </style>
@@ -303,7 +252,7 @@
         <h1>ToDo Project</h1>
     </div>
     <hr>
-    <div class="inputDiv">
+    <div id="inputDiv">
         완료 시간:  
         <input type="datetime-local" id="time">
         <div>
@@ -323,8 +272,8 @@
 
 
     </div>
-    <div class="output">
-        <div id="ToDo">
+    <div id="output">
+        <!-- <div id="ToDo">
             <div class="tableDiv">
             <table>
                 <thead>
@@ -350,12 +299,12 @@
                         <th class="leftTime">끝난 시간</th>
                         <th class="empty"></th>
                     </thead>
+                    <tbody id="DoneBody">
                     
                 </tbody>
             </div>
         </table>
-        <tbody id="DoneBody">
-        </div>
+        </div> -->
     </div>
 </body>
 </html>
