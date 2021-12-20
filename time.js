@@ -1,10 +1,15 @@
-function leftTime(finish){
-    let year =finish.slice(0,2);
-    let month =finish.slice(3,5);
-    let day =finish.slice(6,8);
-    let hour =finish.slice(10,12);
-    let minute =finish.slice(13,15);
+function convertTime(time){
+    let year =time.slice(0,2);
+    let month =time.slice(3,5);
+    let day =time.slice(6,8);
+    let hour =time.slice(10,12);
+    let minute =time.slice(13,15);
     let newTime = new Date("20"+year,month-1,day,hour,minute);
+    return newTime;
+
+}
+function leftTime(finish){
+    let newTime = convertTime(finish);
     let nowTime = new Date();
     let difference = newTime-nowTime;
     let result;

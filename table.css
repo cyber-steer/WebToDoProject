@@ -20,6 +20,12 @@
             background-color: #8BF5B7;
             float: right;
         }
+        #ToDo thead{
+            background-color: #5FBCFB;
+        }
+        #Done thead{
+            background-color: #8BF5B7;
+        }
         .empty{
             border: 1px solid #5FBCFB;
             width: 23px;

@@ -11,66 +11,6 @@
     <script src="./table.js"></script>
     <source>
     <script>
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //행 추가
-        function appendRow(time, newWord, color){
-            let tbody = document.getElementById("ToDoBody");
-            let newRow = tbody.insertRow(index(time, tbody));
-            let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
-            console.log(backColor)
-            let input = document.createElement("input");    
-            let button = document.createElement("button");
-            newRow.style.backgroundColor = color;
-            button.innerHTML = "X";
-            input.setAttribute("type", "checkbox");
-            $(button).addClass("delete");
-            $(button).click(deletClickHandler);
-            $(input).click(checkboxClickHandler);
-            for(let i=0; i<5;i++){
-                let cell = newRow.insertCell(i)
-                switch(i){
-                    case 0:
-                        cell.appendChild(input)
-                        cell.style.backgroundColor = backColor;
-                        $(cell).addClass("empty ")
-                        break;
-                    case 1:
-                        cell.innerHTML = time;
-                        $(cell).addClass("endTime textCenter")
-                        break;
-                    case 2:
-                        cell.innerHTML = newWord;
-                        $(cell).addClass("work textCenter")
-                        break;
-                    case 3:
-                        cell.innerHTML = leftTime(time);
-                        setInterval(function(){
-                            cell.innerHTML = leftTime(time);
-                        },1000)
-                        $(cell).addClass("leftTime textCenter")
-                        break;
-                    case 4:
-                        cell.appendChild(button);
-                        cell.style.backgroundColor = backColor;
-                        $(cell).addClass("empty textCenter")
-                        break;
-                }
-            }
-            // storageSave();
-
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //행삭제 핸들러
-        function deletClickHandler(){
-            let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
-            let rowIndex = this.parentNode.parentNode.rowIndex;
-            if(parentId == "ToDoBody")
-                document.getElementById("ToDoBody").deleteRow(rowIndex-1);
-            else
-                document.getElementById("DoneBody").deleteRow(rowIndex-1);
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //등록 버튼 클릭 핸들러
         function saveClickHandler(){
             let color = document.getElementById("color").value;
             let newWord = document.getElementById("inputText").value.trim();
@@ -80,122 +20,6 @@
             appendRow(time, newWord, color);
             
         }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //체크박스 클릭 핸들러
-        function checkboxClickHandler(){
-            let parentID = this.parentNode.parentNode.parentNode;
-            let trArray;
-            let backColor;
-            let tr = this.parentNode.parentNode;
-            let time = tr.children[1].innerHTML;
-            if(parentID.getAttribute('id') == "ToDoBody"){
-                parentID = document.getElementById("DoneBody");
-                trArray = parentID.children;
-                backColor = getComputedStyle(document.getElementById("Done")).backgroundColor;
-            }
-            else{
-                parentID = document.getElementById("ToDoBody");
-                trArray = parentID.children;
-                backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
-            }
-            parentID.insertBefore(tr, trArray[index(time, parentID)]);
-            let parentTd =  this.parentNode;
-            parentTd.style.backgroundColor = backColor;
-            let button = parentTd.parentNode.lastChild;
-            button.style.backgroundColor = backColor;   
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        function getTokenStringFromBox(boxName){
-            let div = document.getElementById(boxName).parentNode.parentNode 
-            let backColor = getComputedStyle(div).backgroundColor;
-            let box = {
-                endTime: [],
-                content: [],
-                color: backColor,
-                boxName: boxName
-            }
-            let trArray = document.getElementById(boxName).children;
-            let array = [];
-            for(let tr of trArray){
-                for(let i=0;i<2;i++){
-                    switch(i){
-                        case 0:
-                            box.endTime.push(tr.children[1].innerHTML);
-                            break;
-                        case 1:
-                            box.content.push(tr.children[2].innerHTML);
-                            break;
-                    }
-                }
-            }
-            return JSON.stringify(box);
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        function pushTokenToBox(boxName, time, newWord, backColor){
-            console.log(boxName);
-            console.log(time);
-            console.log(newWord);
-            console.log(backColor);
-            let tbody = document.getElementById(boxName);
-            let newRow = tbody.insertRow(index(time, tbody));
-            let input = document.createElement("input");    
-            let button = document.createElement("button");
-            newRow.style.backgroundColor = color;
-            button.innerHTML = "X";
-            input.setAttribute("type", "checkbox");
-            $(button).addClass("delete");
-            $(button).click(deletClickHandler);
-            $(input).click(checkboxClickHandler);
-            for(let i=0; i<5;i++){
-                let cell = newRow.insertCell(i)
-                switch(i){
-                    case 0:
-                        cell.appendChild(input)
-                        cell.style.backgroundColor = backColor;
-                        $(cell).addClass("empty textCenter");
-                        break;
-                    case 1:
-                        cell.innerHTML = time;
-                        $(cell).addClass("endTime");
-                        break;
-                    case 2:
-                        cell.innerHTML = newWord;
-                        $(cell).addClass("work textCenter");
-                        break;
-                    case 3:
-                        cell.innerHTML = leftTime(time);
-                        $(cell).addClass("leftTime textCenter");
-                        setInterval(function(){
-                            cell.innerHTML = leftTime(time);
-                        },1000)
-                        break;
-                    case 4:
-                        cell.appendChild(button);
-                        cell.style.backgroundColor = backColor;
-                        $(cell).addClass("empty textCenter");
-                        break;
-                }
-            }
-            storageSave();
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //로컬스토리지 저장
-        function storageSave(){
-            localStorage.setItem("ToDoBody",getTokenStringFromBox("ToDoBody"));
-            localStorage.setItem("DoneBody",getTokenStringFromBox("DoneBody"));
-            console.log("save");
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //로컬스토리지 불러오기
-        function restoreTokenList(){
-            if(localStorage.getItem("ToDoBody") != null){
-                let list = JSON.parse(localStorage.getItem("ToDoBody"));
-                for(let i in list.content){
-                    pushTokenToBox(list.boxName, list.endTime[i],list.content, list.color);
-                }
-            }
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
         //input 날짜 초기값
         function toDaySetting(){
             let time = new Date().toLocaleDateString();
@@ -213,7 +37,7 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
-            restoreTokenList();
+            // restoreTokenList();
             createTable(document.getElementById("output"));
         });
     </script>
@@ -264,25 +88,25 @@
     </div>
     <div id="sideBar">
         <div id="dir">
-        <ul>
-                <li><h1>ToDo</h1></li>
+            <h1>ToDo</h1>
+            <ul>
+                <li>ToDo</li>
             </ul>
         </div>
-            <li>설정</li>
-
-
+            <h3>설정</h3>
     </div>
+    
     <div id="output">
-        <!-- <div id="ToDo">
+        <div id="ToDo">
             <div class="tableDiv">
-            <table>
-                <thead>
-                    <th class="empty"></th>
-                    <th class="endTime">완료 시간</th>
-                    <th class="work">해야 할 일</th>
-                    <th class="leftTime">남은 시간</th>
-                    <th class="empty"></th>
-                </thead>
+                <table>
+                    <thead>
+                        <th class="empty"></th>
+                        <th class="endTime">완료 시간</th>
+                        <th class="work">해야 할 일</th>
+                        <th class="leftTime">남은 시간</th>
+                        <th class="empty"></th>
+                    </thead>
                     <tbody id="ToDoBody">
                         
                     </tbody>
@@ -304,7 +128,7 @@
                 </tbody>
             </div>
         </table>
-        </div> -->
+        </div>
     </div>
 </body>
 </html>

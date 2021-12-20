@@ -1,3 +1,5 @@
+//------------------------------------------------------------------------
+//테이블 인덱스 반환
 function index(newTime, table){
     let row = table.children;
     let trData = [];
@@ -27,7 +29,92 @@ function index(newTime, table){
     }
     return rowIndex;
 }
+//------------------------------------------------------------------------
+//행 추가
+function appendRow(time, newWord, color){
+    let tbody = document.getElementById("ToDoBody");
+    let newRow = tbody.insertRow(index(time, tbody));
+    let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+    let input = document.createElement("input");    
+    let button = document.createElement("button");
+    // newRow.style.backgroundColor = color;
+    newRow.style.backgroundColor = "#b937c8"+"fe";
+    button.innerHTML = "X";
+    input.setAttribute("type", "checkbox");
+    $(button).addClass("delete");
+    $(button).click(deletClickHandler);
+    $(input).click(checkboxClickHandler);
+    for(let i=0; i<5;i++){
+        let cell = newRow.insertCell(i)
+        switch(i){
+            case 0:
+                cell.appendChild(input)
+                cell.style.backgroundColor = backColor;
+                $(cell).addClass("empty ")
+                break;
+            case 1:
+                cell.innerHTML = time;
+                $(cell).addClass("endTime textCenter")
+                break;
+            case 2:
+                cell.innerHTML = newWord;
+                $(cell).addClass("work textCenter")
+                break;
+            case 3:
+                cell.innerHTML = leftTime(time);
+                setInterval(function(){
+                    cell.innerHTML = leftTime(time);
+                },1000)
+                $(cell).addClass("leftTime textCenter")
+                break;
+            case 4:
+                cell.appendChild(button);
+                cell.style.backgroundColor = backColor;
+                $(cell).addClass("empty textCenter")
+                break;
+        }
+    }
+    // storageSave();
+
+}
+//------------------------------------------------------------------------
+//행삭제 핸들러
+function deletClickHandler(){
+    let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
+    let rowIndex = this.parentNode.parentNode.rowIndex;
+    if(parentId == "ToDoBody")
+        document.getElementById("ToDoBody").deleteRow(rowIndex-1);
+    else
+        document.getElementById("DoneBody").deleteRow(rowIndex-1);
+}
+//------------------------------------------------------------------------
+//체크박스 클릭 핸들러
+function checkboxClickHandler(){
+    let parentID = this.parentNode.parentNode.parentNode;
+    let trArray;
+    let backColor;
+    let tr = this.parentNode.parentNode;
+    let time = tr.children[1].innerHTML;
+    if(parentID.getAttribute('id') == "ToDoBody"){
+        parentID = document.getElementById("DoneBody");
+        trArray = parentID.children;
+        backColor = getComputedStyle(document.getElementById("Done")).backgroundColor;
+    }
+    else{
+        parentID = document.getElementById("ToDoBody");
+        trArray = parentID.children;
+        backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+    }
+    parentID.insertBefore(tr, trArray[index(time, parentID)]);
+    let parentTd =  this.parentNode;
+    parentTd.style.backgroundColor = backColor;
+    let button = parentTd.parentNode.lastChild;
+    button.style.backgroundColor = backColor;   
+}
+//------------------------------------------------------------------------
+//테이블 생성
 function createTable(div){
+    div.innerHTML = "";
     let divToDo = document.createElement("div");
     let divDone = document.createElement("div");
     let divToDotable = document.createElement("div");
@@ -45,8 +132,6 @@ function createTable(div){
     let tbodyDone = document.createElement("tbody");
     tbodyToDo.setAttribute("id", "ToDoBody");
     tbodyDone.setAttribute("id", "DoneBody");
-    let backColor = getComputedStyle(divToDo).backgroundColor;
-    console.log(backColor);
     let thToDo = [];
     let thDone = [];
     for(let i=0;i<5;i++){
@@ -60,8 +145,8 @@ function createTable(div){
                 case 1:
                     thToDo[i].setAttribute("class", "endTime");
                     thDone[i].setAttribute("class", "endTime");
-                    thToDo[i].innerHTML = "완료시간";
-                    thDone[i].innerHTML = "완료시간";
+                    thToDo[i].innerHTML = "마감시간";
+                    thDone[i].innerHTML = "마감시간";
                     break;
                 case 2:
                     thToDo[i].setAttribute("class", "work");
@@ -93,6 +178,4 @@ function createTable(div){
     tableToDo.appendChild(tbodyToDo);
     tableDone.appendChild(theadDone);
     tableDone.appendChild(tbodyDone);
-    
-
 }
