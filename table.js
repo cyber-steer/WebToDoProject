@@ -12,6 +12,7 @@ function index(newTime, table){
     newTime = new Date("20"+year,month-1,day,hour,minute);
     for(let tr of row){
         trData.push(tr.children[1].innerHTML);
+        console.log(tr.children[1]);
     }
     for(let i=0; i<row.length; i++){
         year = trData[i].slice(0,2);
@@ -37,8 +38,8 @@ function appendRow(time, newWord, color){
     let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
     let input = document.createElement("input");    
     let button = document.createElement("button");
-    // newRow.style.backgroundColor = color;
-    newRow.style.backgroundColor = "#b937c8"+"fe";
+
+    newRow.style.backgroundColor = transColor(color, time);
     button.innerHTML = "X";
     input.setAttribute("type", "checkbox");
     $(button).addClass("delete");
@@ -64,7 +65,7 @@ function appendRow(time, newWord, color){
                 cell.innerHTML = leftTime(time);
                 setInterval(function(){
                     cell.innerHTML = leftTime(time);
-                },1000)
+                },1000);
                 $(cell).addClass("leftTime textCenter")
                 break;
             case 4:
@@ -74,6 +75,9 @@ function appendRow(time, newWord, color){
                 break;
         }
     }
+    setInterval(function(){
+        newRow.style.backgroundColor = transColor(color, time);
+    },1000);
     // storageSave();
 
 }
@@ -178,4 +182,42 @@ function createTable(div){
     tableToDo.appendChild(tbodyToDo);
     tableDone.appendChild(theadDone);
     tableDone.appendChild(tbodyDone);
+}
+function transColor(color, time){
+    let newTime = convertTime(time);
+    let nowTime = new Date();
+    let difference = newTime-nowTime;
+    let trans = 0;
+
+    difference = newTime-nowTime;
+    if(parseInt(parseInt(difference/1000/60)/60/24/365)==0){ //년
+        if(parseInt(parseInt(difference/1000/60/60/24)/30)==0){ //달
+            if(parseInt(difference/1000/60/60/24)==0){ //일
+                if(parseInt(difference/1000/60/60)==0){ //시
+                    if(parseInt(difference/1000/60)==0){ //분
+                        trans = 255-2*parseInt(difference/1000);
+                    }
+                    else{
+                        trans = 136 - parseInt(difference/1000/60);
+                    }
+                }
+                else{
+                    trans = 77 -parseInt(difference/1000/60/60);
+                }
+            }
+            else{
+                trans = 54 -parseInt(difference/1000/60/60/24);
+            }
+        }
+        else{
+            trans = 24 - 2*parseInt(parseInt(difference/1000/60/60/24)/30);
+        }
+    }
+    else{
+        trans = 0;
+    }
+    if(difference <=0) trans = 255;
+    trans = trans.toString(16);
+    console.log(trans);
+    return color + trans;
 }
