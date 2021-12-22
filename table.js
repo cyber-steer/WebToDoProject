@@ -12,7 +12,6 @@ function index(newTime, table){
     newTime = new Date("20"+year,month-1,day,hour,minute);
     for(let tr of row){
         trData.push(tr.children[1].innerHTML);
-        console.log(tr.children[1]);
     }
     for(let i=0; i<row.length; i++){
         year = trData[i].slice(0,2);
@@ -33,51 +32,53 @@ function index(newTime, table){
 //------------------------------------------------------------------------
 //행 추가
 function appendRow(time, newWord, color){
-    let tbody = document.getElementById("ToDoBody");
-    let newRow = tbody.insertRow(index(time, tbody));
-    let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
-    let input = document.createElement("input");    
-    let button = document.createElement("button");
+    pushTokenToBox("ToDoBody",time, newWord, color);
+    storageSave();
+    // let tbody = document.getElementById("ToDoBody");
+    // let newRow = tbody.insertRow(index(time, tbody));
+    // let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
+    // let input = document.createElement("input");    
+    // let button = document.createElement("button");
 
-    newRow.style.backgroundColor = transColor(color, time);
-    button.innerHTML = "X";
-    input.setAttribute("type", "checkbox");
-    $(button).addClass("delete");
-    $(button).click(deletClickHandler);
-    $(input).click(checkboxClickHandler);
-    for(let i=0; i<5;i++){
-        let cell = newRow.insertCell(i)
-        switch(i){
-            case 0:
-                cell.appendChild(input)
-                cell.style.backgroundColor = backColor;
-                $(cell).addClass("empty ")
-                break;
-            case 1:
-                cell.innerHTML = time;
-                $(cell).addClass("endTime textCenter")
-                break;
-            case 2:
-                cell.innerHTML = newWord;
-                $(cell).addClass("work textCenter")
-                break;
-            case 3:
-                cell.innerHTML = leftTime(time);
-                setInterval(function(){
-                    cell.innerHTML = leftTime(time);
-                },1000);
-                $(cell).addClass("leftTime textCenter")
-                break;
-            case 4:
-                cell.appendChild(button);
-                cell.style.backgroundColor = backColor;
-                $(cell).addClass("empty textCenter")
-                break;
-        }
-    }
-    setInterval(function(){
-        newRow.style.backgroundColor = transColor(color, time);
-    },1000);
+    // newRow.style.backgroundColor = transColor(color, time);
+    // button.innerHTML = "X";
+    // input.setAttribute("type", "checkbox");
+    // $(button).addClass("delete");
+    // $(button).click(deletClickHandler);
+    // $(input).click(checkboxClickHandler);
+    // for(let i=0; i<5;i++){
+    //     let cell = newRow.insertCell(i)
+    //     switch(i){
+    //         case 0:
+    //             cell.appendChild(input)
+    //             cell.style.backgroundColor = backColor;
+    //             $(cell).addClass("empty ")
+    //             break;
+    //         case 1:
+    //             cell.innerHTML = time;
+    //             $(cell).addClass("endTime textCenter")
+    //             break;
+    //         case 2:
+    //             cell.innerHTML = newWord;
+    //             $(cell).addClass("work textCenter")
+    //             break;
+    //         case 3:
+    //             cell.innerHTML = leftTime(time);
+    //             setInterval(function(){
+    //                 cell.innerHTML = leftTime(time);
+    //             },1000);
+    //             $(cell).addClass("leftTime textCenter")
+    //             break;
+    //         case 4:
+    //             cell.appendChild(button);
+    //             cell.style.backgroundColor = backColor;
+    //             $(cell).addClass("empty textCenter")
+    //             break;
+    //     }
+    // }
+    // setInterval(function(){
+    //     newRow.style.backgroundColor = transColor(color, time);
+    // },1000);
     // storageSave();
 
 }
@@ -90,6 +91,7 @@ function deletClickHandler(){
         document.getElementById("ToDoBody").deleteRow(rowIndex-1);
     else
         document.getElementById("DoneBody").deleteRow(rowIndex-1);
+        storageSave();
 }
 //------------------------------------------------------------------------
 //체크박스 클릭 핸들러
@@ -114,6 +116,7 @@ function checkboxClickHandler(){
     parentTd.style.backgroundColor = backColor;
     let button = parentTd.parentNode.lastChild;
     button.style.backgroundColor = backColor;   
+    storageSave();
 }
 //------------------------------------------------------------------------
 //테이블 생성
@@ -218,6 +221,5 @@ function transColor(color, time){
     }
     if(difference <=0) trans = 255;
     trans = trans.toString(16);
-    console.log(trans);
     return color + trans;
 }

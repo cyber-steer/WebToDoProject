@@ -9,6 +9,7 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./time.js"></script>
     <script src="./table.js"></script>
+    <script src="./storage.js"></script>
     <source>
     <script>
         function saveClickHandler(){
@@ -37,8 +38,8 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
-            // restoreTokenList();
             createTable(document.getElementById("output"));
+            restoreTokenList();
         });
     </script>
     <style>
@@ -47,18 +48,11 @@
             margin: 0px auto;
             text-align: center;
         }
-        #sideBar{
-            float: left;
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            padding: 0px 10px;
-            background-color: blue;
-            width: 100px;
+        h1{
+            margin-bottom: 0px;
         }
-        #dir{
-            background-color: blue;
+        #userList{
+            text-align: center;
         }
         #inputDiv{
             margin: 0px auto;
@@ -74,7 +68,12 @@
 </head>
 <body>
     <div class="header">
-        <h1>ToDo Project</h1>
+        <h1>ToDo Project</h1><br>
+        <span id="user">admin</span>
+    </div>
+    <hr>
+    <div id="userList">
+        <span class="user">admin</span>
     </div>
     <hr>
     <div id="inputDiv">
