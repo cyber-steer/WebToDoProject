@@ -21,6 +21,23 @@
             appendRow(time, newWord, color);
             
         }
+        //------------------------------------------------------------------------
+        //사용자 추가
+        function userAddKeydownHandler(){
+            if(event.keyCode == 13){
+                let newUser = this.value.trim();
+                if(newUser != ""){
+                    let div = document.getElementById("userList");
+                    let span = document.createElement("span");
+                    span.innerHTML = newUser;
+                    $(span).addClass("user");
+                    document.getElementById("user").innerHTML = newUser;
+                    div.insertBefore(span, this);
+                    createTable(document.getElementById("output"));
+                }
+                this.value ="";
+            }
+        }
         //input 날짜 초기값
         function toDaySetting(){
             let time = new Date().toLocaleDateString();
@@ -74,6 +91,7 @@
     <hr>
     <div id="userList">
         <span class="user">admin</span>
+        <input type="text" id="newUser" size="10">
     </div>
     <hr>
     <div id="inputDiv">
