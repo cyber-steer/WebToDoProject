@@ -17,15 +17,13 @@ function restoreTokenList(){
     if(localStorage.getItem("DoneBody") != null){
         let list = JSON.parse(localStorage.getItem("DoneBody"));
         for(let i in list.content){
-            // console.log(list.boxName+", "+ list.endTime[i]+", "+ list.content[i]+", "+ list.color[i])
-            pushTokenToBox(list.boxName, list.endTime[i],list.content[i], list.color[i]);
+            pushTokenToBox(list.boxName, list.endTime[i],list.content[i], list.color[i], true);
         }
     }
 }
 //------------------------------------------------------------------------
 function getTokenStringFromBox(boxName){
     let div = document.getElementById(boxName).parentNode.parentNode 
-    // let backColor = getComputedStyle(div).backgroundColor;
     let box = {
         endTime: [],
         content: [],
@@ -59,8 +57,7 @@ function getTokenStringFromBox(boxName){
     }
     return JSON.stringify(box);
 }
-function pushTokenToBox(boxName, time, newWord, color){
-    console.log(boxName);
+function pushTokenToBox(boxName, time, newWord, color, check=false){
     let tbody = document.getElementById(boxName);
     let newRow = tbody.insertRow(index(time, tbody));
     let backColor;
@@ -69,7 +66,6 @@ function pushTokenToBox(boxName, time, newWord, color){
 
     }
     else{
-        console.log(boxName+", "+time+", "+newWord+", "+color);
         backColor = getComputedStyle(document.getElementById("Done")).backgroundColor;
     } 
         
@@ -87,6 +83,7 @@ function pushTokenToBox(boxName, time, newWord, color){
             case 0:
                 cell.appendChild(input)
                 cell.style.backgroundColor = backColor;
+                cell.children[0].checked = check;
                 $(cell).addClass("empty textCenter");
                 break;
             case 1:

@@ -34,53 +34,6 @@ function index(newTime, table){
 function appendRow(time, newWord, color){
     pushTokenToBox("ToDoBody",time, newWord, color);
     storageSave();
-    // let tbody = document.getElementById("ToDoBody");
-    // let newRow = tbody.insertRow(index(time, tbody));
-    // let backColor = getComputedStyle(document.getElementById("ToDo")).backgroundColor;
-    // let input = document.createElement("input");    
-    // let button = document.createElement("button");
-
-    // newRow.style.backgroundColor = transColor(color, time);
-    // button.innerHTML = "X";
-    // input.setAttribute("type", "checkbox");
-    // $(button).addClass("delete");
-    // $(button).click(deletClickHandler);
-    // $(input).click(checkboxClickHandler);
-    // for(let i=0; i<5;i++){
-    //     let cell = newRow.insertCell(i)
-    //     switch(i){
-    //         case 0:
-    //             cell.appendChild(input)
-    //             cell.style.backgroundColor = backColor;
-    //             $(cell).addClass("empty ")
-    //             break;
-    //         case 1:
-    //             cell.innerHTML = time;
-    //             $(cell).addClass("endTime textCenter")
-    //             break;
-    //         case 2:
-    //             cell.innerHTML = newWord;
-    //             $(cell).addClass("work textCenter")
-    //             break;
-    //         case 3:
-    //             cell.innerHTML = leftTime(time);
-    //             setInterval(function(){
-    //                 cell.innerHTML = leftTime(time);
-    //             },1000);
-    //             $(cell).addClass("leftTime textCenter")
-    //             break;
-    //         case 4:
-    //             cell.appendChild(button);
-    //             cell.style.backgroundColor = backColor;
-    //             $(cell).addClass("empty textCenter")
-    //             break;
-    //     }
-    // }
-    // setInterval(function(){
-    //     newRow.style.backgroundColor = transColor(color, time);
-    // },1000);
-    // storageSave();
-
 }
 //------------------------------------------------------------------------
 //행삭제 핸들러
