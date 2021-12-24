@@ -68,13 +68,29 @@
         h1{
             margin-bottom: 0px;
         }
+        #subHeader{
+            width: 1050px;
+            margin: 0px auto;
+            height: 60px;
+        }
+        #label{
+            float: left;
+        }
+        #feild{
+            float: right;
+        }
+        #userLogin{
+            float: right;
+            margin-right: 20px;
+        }
         #userList{
             text-align: center;
         }
         #inputDiv{
             margin: 0px auto;
-            width: 700px;
+            width: 390px;
             text-align: center;
+            float: left;
         }
         #output{
             margin: 0px auto;
@@ -94,17 +110,31 @@
         <input type="text" id="newUser" size="10">
     </div>
     <hr>
-    <div id="inputDiv">
-        완료 시간:  
-        <input type="datetime-local" id="time">
-        <div>
-            배경 색:
-            <input type="color" id="color">
-            입력: <input type="text" id="inputText">
-            <button id="save">등록</button>
+    <div id="subHeader">
+        <div id="inputDiv">
+            완료 시간:  
+            <input type="datetime-local" id="time">
+            <div>
+                배경 색:
+                <input type="color" id="color">
+                입력: <input type="text" id="inputText">
+                <button id="save">등록</button>
+            </div>
+        </div>
+        <div id="userLogin">
+            <div id="label">
+                I D: <br>
+                PASSWORD: 
+
+            </div>
+            <div id="feild">
+                <input type="text" id="id"><br>
+                <input type="password" id="password">
+                
+            </div>
         </div>
     </div>
-    
+        
     <div id="output">
         <div id="ToDo">
             <div class="tableDiv">
