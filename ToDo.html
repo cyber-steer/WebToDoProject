@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo</title>
 	<link rel="stylesheet" type="text/css" href="./table.css"> 
+	<link rel="stylesheet" type="text/css" href="./login.css"> 
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./time.js"></script>
     <script src="./table.js"></script>
@@ -91,6 +92,7 @@
             width: 390px;
             text-align: center;
             float: left;
+            margin-left: 20px;
         }
         #output{
             margin: 0px auto;
@@ -121,17 +123,15 @@
                 <button id="save">등록</button>
             </div>
         </div>
-        <div id="userLogin">
-            <div id="label">
-                I D: <br>
-                PASSWORD: 
-
-            </div>
-            <div id="feild">
-                <input type="text" id="id"><br>
-                <input type="password" id="password">
-                
-            </div>
+            <form name="login">
+                <fieldset id="field">
+                    <div id="idcard">
+                        <input type="text" id="id" placeholder="아이디">
+                        <input type="password" id="pw" placeholder="비밀번호">
+                        <input type="submit" id="bt" value="로그인">
+                </div>
+                </fieldset>
+            </form>
         </div>
     </div>
         
