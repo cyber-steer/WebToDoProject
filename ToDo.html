@@ -11,6 +11,7 @@
     <script src="./time.js"></script>
     <script src="./table.js"></script>
     <script src="./storage.js"></script>
+    <script src="./login.js"></script>
     <source>
     <script>
         function saveClickHandler(){
@@ -56,8 +57,14 @@
         $(document).ready(function(){
             toDaySetting();
             $("#save").click(saveClickHandler);
-            createTable(document.getElementById("output"));
+            $("#loginBtn").click(loginClickHandler);
+            $("#loginBtn").mouseover(loginOverHandler);
+            $("#loginBtn").mouseout(loginOutHandler);
+            $("#singup").click(spanClickHandler);
+            storageUserListSave("admin","admin");
             restoreTokenList();
+            restoreUserList();
+            
         });
     </script>
     <style>
@@ -72,20 +79,13 @@
         #subHeader{
             width: 1050px;
             margin: 0px auto;
-            height: 60px;
+            height: 80px;
         }
         #label{
             float: left;
         }
         #feild{
             float: right;
-        }
-        #userLogin{
-            float: right;
-            margin-right: 20px;
-        }
-        #userList{
-            text-align: center;
         }
         #inputDiv{
             margin: 0px auto;
@@ -107,11 +107,6 @@
         <span id="user">admin</span>
     </div>
     <hr>
-    <div id="userList">
-        <span class="user">admin</span>
-        <input type="text" id="newUser" size="10">
-    </div>
-    <hr>
     <div id="subHeader">
         <div id="inputDiv">
             완료 시간:  
@@ -123,15 +118,16 @@
                 <button id="save">등록</button>
             </div>
         </div>
-            <form name="login">
-                <fieldset id="field">
+            <div id="field">
                     <div id="idcard">
                         <input type="text" id="id" placeholder="아이디">
                         <input type="password" id="pw" placeholder="비밀번호">
-                        <input type="submit" id="bt" value="로그인">
+                        <button id="loginBtn">로그인</button>
                 </div>
-                </fieldset>
-            </form>
+                <div id="login_manage">
+                    <span id="singup">회원가입</span>
+                </div>
+            </div>
         </div>
     </div>
         

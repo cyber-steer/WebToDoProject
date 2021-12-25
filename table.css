@@ -1,61 +1,61 @@
 
-        table{ 
-            border-collapse: collapse;
-        }
-        .tableDiv{
-            width: 460px;
-            margin: 20px auto;
-            background-color: white;
-        }
-        #ToDo, #Done{
-            margin: 10px;
-            border-radius: 1rem;
-            width: 505px;
-        }
-        #ToDo{
-            float: left;
-            background-color: #5FBCFB;
-        }
-        #Done{
-            background-color: #8BF5B7;
-            float: right;
-        }
-        #ToDo thead{
-            background-color: #5FBCFB;
-        }
-        #Done thead{
-            background-color: #8BF5B7;
-        }
-        .empty{
-            border: 1px solid #5FBCFB;
-            width: 23px;
-            background-color: #5FBCFB;
-        }
-        #Done .empty{
-            background-color: #8BF5B7;
-            border: 1px solid #8BF5B7;
+table{ 
+    border-collapse: collapse;
+}
+.tableDiv{
+    width: 460px;
+    margin: 20px auto;
+    background-color: white;
+}
+#ToDo, #Done{
+    margin: 10px;
+    border-radius: 1rem;
+    width: 505px;
+}
+#ToDo{
+    float: left;
+    background-color: #5FBCFB;
+}
+#Done{
+    background-color: #8BF5B7;
+    float: right;
+}
+#ToDo thead{
+    background-color: #5FBCFB;
+}
+#Done thead{
+    background-color: #8BF5B7;
+}
+.empty{
+    border: 1px solid #5FBCFB;
+    width: 23px;
+    background-color: #5FBCFB;
+}
+#Done .empty{
+    background-color: #8BF5B7;
+    border: 1px solid #8BF5B7;
 
-        }
-        .delete{
-            border: 1px solid #5FBCFB;
-            width: 20px;
-            margin-left: 3px;
-        }
-        .endTime{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 110px;
-            text-align: center;
-        }
-        .work{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 230px;
-            text-align: center;
-        }
-        .leftTime{
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 80px;
-            text-align: center;
-        }
+}
+.delete{
+    border: 1px solid #5FBCFB;
+    width: 20px;
+    margin-left: 3px;
+}
+.endTime{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    width: 110px;
+    text-align: center;
+}
+.work{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    width: 230px;
+    text-align: center;
+}
+.leftTime{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    width: 80px;
+    text-align: center;
+}

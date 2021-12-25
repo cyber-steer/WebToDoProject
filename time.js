@@ -49,3 +49,25 @@ function leftTime(finish){
         return result+"년";
     }
 }
+function convertColor(backColor){
+    if(backColor.charAt(3) == "a"){
+        backColor = backColor.slice(5,backColor.length-1);
+        backColor = backColor.split(", ");
+        backColor.pop();
+    }
+    else{
+        backColor = backColor.slice(4,backColor.length-1);
+        backColor = backColor.split(", ");
+
+    }
+    let color ="#";
+    for(let i=0;i<3;i++){
+        let code = parseInt(backColor[i]).toString(16);
+        if(parseInt(backColor[i])<16){
+            code +="0";
+        }
+        color += code;
+    }
+    console.log(color);
+    return color;
+}
