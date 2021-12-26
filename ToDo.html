@@ -14,32 +14,49 @@
     <script src="./login.js"></script>
     <source>
     <script>
+        //------------------------------------------------------------------------
+        //조건 검색
+        function doSave(time, word){
+            let endTime = convertTime(time);
+            let nowTime = new Date();
+            if(endTime<nowTime){
+                alert(nowTime+"이후의 시간으로 설정해주세요")
+                return false;
+            } 
+            if(word == ""){
+                alert("할일을 입력해 주세요")
+                return false
+            } 
+            return true;
+        }
+        //------------------------------------------------------------------------
+        //키보드 핸들러
+        function saveKeydownHandler(){
+            if(event.keyCode == 13){
+                let color = document.getElementById("color").value;
+                let newWord = document.getElementById("inputText").value.trim();
+                let time = document.getElementById("time").value
+                time = time.slice(2,4)+"/"+time.slice(5,7)+"/"+time.slice(8,10)+", "+time.slice(11,13)+":"+time.slice(14,16);
+                if(doSave(time,newWord)){
+                    document.getElementById("inputText").value = "";
+                    appendRow(time, newWord, color);
+                }
+            }
+        }
+        //------------------------------------------------------------------------
+        //등록 버튼 클릭
         function saveClickHandler(){
             let color = document.getElementById("color").value;
             let newWord = document.getElementById("inputText").value.trim();
             let time = document.getElementById("time").value
             time = time.slice(2,4)+"/"+time.slice(5,7)+"/"+time.slice(8,10)+", "+time.slice(11,13)+":"+time.slice(14,16);
-            document.getElementById("inputText").value = "";
-            appendRow(time, newWord, color);
+            if(doSave(time,newWord)){
+                document.getElementById("inputText").value = "";
+                appendRow(time, newWord, color);
+            }
             
         }
         //------------------------------------------------------------------------
-        //사용자 추가
-        function userAddKeydownHandler(){
-            if(event.keyCode == 13){
-                let newUser = this.value.trim();
-                if(newUser != ""){
-                    let div = document.getElementById("userList");
-                    let span = document.createElement("span");
-                    span.innerHTML = newUser;
-                    $(span).addClass("user");
-                    document.getElementById("user").innerHTML = newUser;
-                    div.insertBefore(span, this);
-                    createTable(document.getElementById("output"));
-                }
-                this.value ="";
-            }
-        }
         //input 날짜 초기값
         function toDaySetting(){
             let time = new Date().toLocaleDateString();
@@ -61,6 +78,7 @@
             $("#loginBtn").mouseover(loginOverHandler);
             $("#loginBtn").mouseout(loginOutHandler);
             $("#singup").click(spanClickHandler);
+            $("#inputText").keydown(saveKeydownHandler);
             storageUserListSave("admin","admin");
             restoreTokenList();
             restoreUserList();

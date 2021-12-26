@@ -68,6 +68,5 @@ function convertColor(backColor){
         }
         color += code;
     }
-    console.log(color);
     return color;
 }
